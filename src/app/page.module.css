@@ -8,7 +8,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #c5bfbf7f;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.topBorder {
+  height: 2vh;
 }
 
 .lockButtonContainer {
@@ -40,7 +44,7 @@
   position: absolute;
   top: 0px;
   left: 0px;
-  padding: 20px;
+  padding: 10px;
 }
 
 .runButton {
@@ -76,14 +80,20 @@
 .selecting {
   width: 80px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   border: 2px solid rgba(0, 0, 0, 0);
 }
 
+.subtitle {
+  font-size: 14px;
+}
+
 .winner {
   width: 80px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   border: 2px solid #37b54a;
@@ -96,7 +106,7 @@
   top: 0px;
   right: 0px;
   width: 300px;
-  margin: 20px;
+  margin: 5px;
   border: 1px solid #249fab;
   justify-content: center;
   align-items: center;
@@ -109,7 +119,7 @@
   right: 0px;
   bottom: 0px;
   width: 300px;
-  margin: 20px 20px 0px 20px;
+  margin: 5px;
   border: 1px solid #249fab;
   justify-content: center;
   align-items: center;
@@ -121,11 +131,11 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  padding: 5px;
 }
 
 .imageContainer {
-  padding: 3px;
+  padding: 2px;
 }
 
 .qualifyHead {
@@ -134,7 +144,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 50px;
+  height: 40px;
   border: 1px solid #249fab;
   background-color: #249fab;
   text-align: center;
@@ -145,10 +155,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 20px;
   font-family: 'Montserrat', sans-serif;
   font-weight: bold;
-  font-size: 25px;
+  font-size: 18px;
 }
 
 .match {
@@ -156,7 +165,8 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 0.5vh 1vw;
+  padding: 0.25vh 1vw;
+  margin: 0.5vh;
 }
 
 .vsPad {
@@ -176,7 +186,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 50px;
+  height: 40px;
   border: 1px solid #249fab;
   background-color: #249fab;
   text-align: center;
@@ -190,7 +200,7 @@
   height: 15px;
   font-family: 'Montserrat', sans-serif;
   font-weight: bold;
-  font-size: 30px;
+  font-size: 25px;
 }
 
 .round {
@@ -284,5 +294,46 @@
   .grid {
     width: 100%;
     flex-direction: column;
+  }
+
+  .runButtonContainer {
+    position: fixed;
+    display: flex;
+    top: 0px;
+    left: 0px;
+    padding: 10px;
+    background-color: #ffffff;
+  }
+
+  .runButton {
+    font-size: 12px;
+    padding: 5px;
+    margin: 10px 10px;
+    width: 105px;
+    height: 40px;
+    background-color: #249fab;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .roundContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .topBorder {
+    height: 10vh;
+  }
+
+  .qualify {
+    position: relative;
+  }
+
+  .disqualify {
+    position: relative;
   }
 }

@@ -43,16 +43,19 @@ export default function Round({ roundHistory, actionButton, roundStatus, roundCo
                             return <div className={styles.match}>
                                 {match.winner == match.firstteam ?
                                     <div onClick={() => { addChoice(match, 0, round.win, round.loss) }} className={styles.winner}>
-                                        <Image width={65} src={match.firstteam.image} alt={match.firstteam.name} />
+                                        <Image width={55} src={match.firstteam.image} alt={match.firstteam.name} />
+                                        <a className={styles.subtitle}>{match.firstteam.name}</a>
                                     </div>
                                     :
                                     choices.findIndex(obj => obj.cMatch.firstteam.name == match.firstteam.name && obj.cMatch.secondteam.name == match.secondteam.name && parseInt(obj.picked) == 0) !== -1 && match.winner != match.secondteam ?
                                         <div onClick={() => { addChoice(match, 0, round.win, round.loss) }} className={styles.winner}>
-                                            <Image width={65} src={match.firstteam.image} alt={match.firstteam.name} />
+                                            <Image width={55} src={match.firstteam.image} alt={match.firstteam.name} />
+                                            <a className={styles.subtitle}>{match.firstteam.name}</a>
                                         </div>
                                         :
                                         <div onClick={() => { addChoice(match, 0, round.win, round.loss) }} className={styles.selecting}>
-                                            <Image width={65} src={match.firstteam.image} alt={match.firstteam.name} />
+                                            <Image width={55} src={match.firstteam.image} alt={match.firstteam.name} />
+                                            <a className={styles.subtitle}>{match.firstteam.name}</a>
                                         </div>
                                 }
                                 <div className={styles.vsPad}>
@@ -60,16 +63,19 @@ export default function Round({ roundHistory, actionButton, roundStatus, roundCo
                                 </div>
                                 {match.winner == match.secondteam ?
                                     <div onClick={() => { addChoice(match, 1, round.win, round.loss) }} className={styles.winner}>
-                                        <Image width={65} src={match.secondteam.image} alt={match.secondteam.name} />
+                                        <Image width={55} src={match.secondteam.image} alt={match.secondteam.name} />
+                                        <a className={styles.subtitle}>{match.secondteam.name}</a>
                                     </div>
                                     :
                                     choices.findIndex(obj => obj.cMatch.firstteam.name == match.firstteam.name && obj.cMatch.secondteam.name == match.secondteam.name && parseInt(obj.picked) == 1) !== -1 && match.winner != match.firstteam ?
                                         <div onClick={() => { addChoice(match, 1, round.win, round.loss) }} className={styles.winner}>
-                                            <Image width={65} src={match.secondteam.image} alt={match.secondteam.name} />
+                                            <Image width={55} src={match.secondteam.image} alt={match.secondteam.name} />
+                                            <a className={styles.subtitle}>{match.secondteam.name}</a>
                                         </div>
                                         :
                                         <div onClick={() => { addChoice(match, 1, round.win, round.loss) }} className={styles.selecting}>
-                                            <Image width={65} src={match.secondteam.image} alt={match.secondteam.name} />
+                                            <Image width={55} src={match.secondteam.image} alt={match.secondteam.name} />
+                                            <a className={styles.subtitle}>{match.secondteam.name}</a>
                                         </div>
                                 }
                             </div>
@@ -80,7 +86,6 @@ export default function Round({ roundHistory, actionButton, roundStatus, roundCo
             </div>
 
         )}
-
         {!roundStatus ?
             <div className={styles.lockButtonContainer}>
                 <button disabled={roundCount != choices.length} onClick={() => { actionButton(choices); }} className={styles.lockButton}>Lock in</button>

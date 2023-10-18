@@ -57,7 +57,22 @@ export default function PickemBracket() {
                 className={styles.runButton}>
                 Completely Random
             </button>
-            <button onClick={() => { window.location.reload(); }} className={styles.runButton}>Reset</button>
+            <button onClick={() => { setTourney(new Tournament); setRoundState([]); setStateSwitch(false); }} className={styles.runButton}>Reset</button>
+        </div>
+
+        <div className={styles.roundContainer}>
+            {roundState.map((rounds) => {
+                var roundSum = 0
+                for (var i = 0; i < rounds.length; i++) {
+                    roundSum += rounds[i].matchList.length
+                }
+                console.log(roundSum)
+                return <div>
+                    <Round roundHistory={rounds} actionButton={makePrediction} roundStatus={rounds[0].complete} roundCount={roundSum} />
+                </div>
+            }
+
+            )}
         </div>
         {
             tourney.qualified.length != 0 ? <div className={styles.qualify}>
@@ -79,25 +94,10 @@ export default function PickemBracket() {
                 </div>
             </div> : <></>
         }
-        <div className={styles.roundContainer}>
-            {roundState.map((rounds) => {
-                var roundSum = 0
-                for (var i = 0; i < rounds.length; i++) {
-                    roundSum += rounds[i].matchList.length
-                }
-                console.log(roundSum)
-                return <div>
-                    <Round roundHistory={rounds} actionButton={makePrediction} roundStatus={rounds[0].complete} roundCount={roundSum} />
-                </div>
-            }
-
-            )}
-        </div>
-
         {tourney.disqualified.length != 0 ? <div className={styles.disqualify}>
             <div className={styles.qualifyHead}>
                 <div className={styles.qualifyHeadTitle}>
-                    Disqualified
+                    Eliminated
                 </div>
             </div>
 
