@@ -263,7 +263,95 @@ export class Tournament {
 
         this.roundNo += 1
     }
+    generateNextRoundRnd() {
+        const tempList = [];
+        for (let i = 0; i < this.roundList.length; i++) {
+            const temp = this.roundList[i];
+            if (temp.complete === true) {
+                continue;
+            }
 
+            const upper = [];
+            const lower = [];
+            for (let i = 0; i < temp.matchList.length; i++) {
+                const rd = Math.floor(Math.random() * 2);
+                temp.matchList[i].setWinner(rd);
+                if (temp.matchList[i].winner.wins < 3) {
+                    upper.push(temp.matchList[i].winner);
+                } else if (temp.matchList[i].winner.wins === 3) {
+                    this.qualified.push(temp.matchList[i].winner);
+                }
+                if (temp.matchList[i].loser.loss < 3) {
+                    lower.push(temp.matchList[i].loser);
+                } else if (temp.matchList[i].loser.loss === 3) {
+                    this.disqualified.push(temp.matchList[i].loser);
+                }
+            }
+
+            const upperRound = new Round([], this.roundNo + 1);
+            let upperSwap = true;
+            let upperIndex = -1;
+            const lowerRound = new Round([], this.roundNo + 1);
+            let lowerSwap = true;
+            let lowerIndex = -1;
+
+            if (upper.length !== 0) {
+                for (let i = 0; i < tempList.length; i++) {
+                    if (
+                        tempList[i].win === upper[0].wins &&
+                        tempList[i].loss === upper[0].loss
+                    ) {
+                        upperIndex = i;
+                        upperSwap = false;
+                        break;
+                    }
+                }
+
+                if (upper.length !== 0 && upperSwap) {
+                    upperRound.insertTeams(upper);
+                    tempList.push(upperRound);
+                } else if (upper.length !== 0 && !upperSwap) {
+                    tempList[upperIndex].insertTeams(upper);
+                }
+            }
+
+            if (lower.length !== 0) {
+                for (let i = 0; i < tempList.length; i++) {
+                    if (
+                        tempList[i].win === lower[0].wins &&
+                        tempList[i].loss === lower[0].loss
+                    ) {
+                        lowerIndex = i;
+                        lowerSwap = false;
+                        break;
+                    }
+                }
+
+                if (lower.length !== 0 && lowerSwap) {
+                    lowerRound.insertTeams(lower);
+                    tempList.push(lowerRound);
+                } else if (lower.length !== 0 && !lowerSwap) {
+                    tempList[lowerIndex].insertTeams(lower);
+                }
+            }
+
+            temp.makeComplete();
+        }
+
+        for (let i = 0; i < tempList.length; i++) {
+            const current = tempList[i].teamPlaying;
+            shuffleArray(current);
+            for (let j = 0; j < current.length; j += 2) {
+                tempList[i].insertMatch([new Match(current[j], current[j + 1])]);
+            }
+        }
+
+        for (let i = 0; i < tempList.length; i++) {
+            this.roundList.push(tempList[i]);
+        }
+
+        this.roundNo += 1
+    }
     generateNextRound() {
         const tempList = [];
         for (let i = 0; i < this.roundList.length; i++) {

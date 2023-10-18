@@ -45,7 +45,7 @@
 
 .runButton {
   margin-left: 10px;
-  width: 150px;
+  padding: 0px 20px;
   height: 50px;
   background-color: #249fab;
   border-radius: 5px;

@@ -47,7 +47,15 @@ export default function PickemBracket() {
             }
             }
                 className={styles.runButton}>
-                GetNextRound
+                Random (East Biased)
+            </button>
+            <button onClick={() => {
+                tourney.generateNextRoundRnd()
+                setStateSwitch(!stateSwitch)
+            }
+            }
+                className={styles.runButton}>
+                Completely Random
             </button>
             <button onClick={() => { window.location.reload(); }} className={styles.runButton}>Reset</button>
         </div>
