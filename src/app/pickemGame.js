@@ -1,20 +1,20 @@
 "use client";
-import t1logo from '../../../public/teams/webp/t1.webp';
-import tllogo from '../../../public/teams/webp/tl.webp';
-import c9logo from '../../../public/teams/webp/c9.webp';
-import madlogo from '../../../public/teams/webp/mad.webp';
-import genglogo from '../../../public/teams/webp/geng.webp';
-import gamlogo from '../../../public/teams/webp/gam.webp';
-import jdglogo from '../../../public/teams/webp/jdg.webp';
-import bdslogo from '../../../public/teams/webp/bds.webp';
-import g2logo from '../../../public/teams/webp/g2.webp';
-import dwglogo from '../../../public/teams/webp/dwg.webp';
-import nrglogo from '../../../public/teams/webp/nrg.webp';
-import wbglogo from '../../../public/teams/webp/wbg.webp';
-import fnclogo from '../../../public/teams/webp/fnc.webp';
-import lnglogo from '../../../public/teams/webp/lng.webp';
-import blglogo from '../../../public/teams/webp/blg.webp';
-import ktlogo from '../../../public/teams/webp/kt.webp';
+import t1logo from '../../public/teams/webp/t1.webp';
+import tllogo from '../../public/teams/webp/tl.webp';
+import c9logo from '../../public/teams/webp/c9.webp';
+import madlogo from '../../public/teams/webp/mad.webp';
+import genglogo from '../../public/teams/webp/geng.webp';
+import gamlogo from '../../public/teams/webp/gam.webp';
+import jdglogo from '../../public/teams/webp/jdg.webp';
+import bdslogo from '../../public/teams/webp/bds.webp';
+import g2logo from '../../public/teams/webp/g2.webp';
+import dwglogo from '../../public/teams/webp/dwg.webp';
+import nrglogo from '../../public/teams/webp/nrg.webp';
+import wbglogo from '../../public/teams/webp/wbg.webp';
+import fnclogo from '../../public/teams/webp/fnc.webp';
+import lnglogo from '../../public/teams/webp/lng.webp';
+import blglogo from '../../public/teams/webp/blg.webp';
+import ktlogo from '../../public/teams/webp/kt.webp';
 
 export class Team {
     constructor(name, region, imageObj) {
@@ -263,6 +263,7 @@ export class Tournament {
 
         this.roundNo += 1
     }
+
     generateNextRound() {
         const tempList = [];
         for (let i = 0; i < this.roundList.length; i++) {

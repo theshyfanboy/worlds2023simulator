@@ -1,12 +1,11 @@
 "use client";
-import { Team, Tournament } from "./game";
+import { Team, Tournament } from "./pickemGame";
 import { React, useEffect, useState } from 'react';
 import styles from './page.module.css';
 import Image from 'next/image'
 import Round from "./round.js";
-import Link from 'next/link';
 
-export default function RandomizedBracket() {
+export default function PickemBracket() {
     const [tourney, setTourney] = useState(new Tournament());
     const [roundState, setRoundState] = useState([]);
     const [stateSwitch, setStateSwitch] = useState(false);
@@ -29,6 +28,11 @@ export default function RandomizedBracket() {
         setRoundState(groupedData);
     }
 
+    const makePrediction = (predictions) => {
+        tourney.predictRound(predictions);
+        setStateSwitch(!stateSwitch)
+    }
+
     useEffect(() => {
         if (tourney.roundList.length != 0) {
             roundPack();
@@ -45,8 +49,7 @@ export default function RandomizedBracket() {
                 className={styles.runButton}>
                 GetNextRound
             </button>
-            <button onClick={() => { setTourney(new Tournament); }} className={styles.runButton}>Reset</button>
-            <Link href="./pickem" className={styles.playButton}>Play Pickem'</Link>
+            <button onClick={() => { window.location.reload(); }} className={styles.runButton}>Reset</button>
         </div>
         {
             tourney.qualified.length != 0 ? <div className={styles.qualify}>
@@ -69,8 +72,17 @@ export default function RandomizedBracket() {
             </div> : <></>
         }
         <div className={styles.roundContainer}>
-            {roundState.map((rounds) =>
-                <Round roundHistory={rounds} />
+            {roundState.map((rounds) => {
+                var roundSum = 0
+                for (var i = 0; i < rounds.length; i++) {
+                    roundSum += rounds[i].matchList.length
+                }
+                console.log(roundSum)
+                return <div>
+                    <Round roundHistory={rounds} actionButton={makePrediction} roundStatus={rounds[0].complete} roundCount={roundSum} />
+                </div>
+            }
+
             )}
         </div>
 
