@@ -51,11 +51,11 @@ export function RuleBook(first, second) {
 }
 
 export class Match {
-    constructor(first, second) {
+    constructor(first, second, winner = null, loser = null) {
         this.firstteam = first;
         this.secondteam = second;
-        this.winner = null;
-        this.loser = null;
+        this.winner = winner;
+        this.loser = loser;
     }
 
     setWinner(winner) {
@@ -136,9 +136,9 @@ export class Tournament {
         this.disqualified = [];
         this.roundNo = 1;
         const matchList = [
-            new Match(t1, tl),
-            new Match(c9, mad),
-            new Match(geng, gam),
+            new Match(t1, tl, t1, tl),
+            new Match(c9, mad, c9, mad),
+            new Match(geng, gam, geng, gam),
             new Match(jdg, bds),
             new Match(g2, dwg),
             new Match(nrg, wbg),
@@ -263,6 +263,7 @@ export class Tournament {
 
         this.roundNo += 1
     }
+
     generateNextRoundRnd() {
         const tempList = [];
         for (let i = 0; i < this.roundList.length; i++) {
