@@ -142,7 +142,7 @@ export class Tournament {
             new Match(jdg, bds, jdg, bds),
             new Match(g2, dwg, g2, dwg),
             new Match(nrg, wbg, wbg, nrg),
-            new Match(fnc, lng),
+            new Match(fnc, lng, lng, fnc),
             new Match(blg, kt),
         ];
         const tempRound = new Round(matchList, 1);
