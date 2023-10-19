@@ -134,17 +134,29 @@ export class Tournament {
         this.roundList = [];
         this.qualified = [];
         this.disqualified = [];
-        this.roundNo = 1;
+        this.roundNo = 2;
+        const tempMatch1 = new Match(t1, tl)
+        const tempMatch2 = new Match(c9, mad)
+        const tempMatch3 = new Match(geng, gam)
+        const tempMatch4 = new Match(jdg, bds)
+        const tempMatch5 = new Match(g2, dwg)
+        const tempMatch6 = new Match(nrg, wbg)
+        const tempMatch7 = new Match(fnc, lng)
+        const tempMatch8 = new Match(blg, kt)
+
+        tempMatch1.setWinner(0)
+        tempMatch2.setWinner(0)
+        tempMatch3.setWinner(0)
+        tempMatch4.setWinner(0)
+        tempMatch5.setWinner(0)
+        tempMatch6.setWinner(1)
+        tempMatch7.setWinner(1)
+        tempMatch8.setWinner(0)
+
         const matchList = [
-            new Match(t1, tl, t1, tl),
-            new Match(c9, mad, c9, mad),
-            new Match(geng, gam, geng, gam),
-            new Match(jdg, bds, jdg, bds),
-            new Match(g2, dwg, g2, dwg),
-            new Match(nrg, wbg, wbg, nrg),
-            new Match(fnc, lng, lng, fnc),
-            new Match(blg, kt, blg, kt),
+            tempMatch1, tempMatch2, tempMatch3, tempMatch4, tempMatch5, tempMatch6, tempMatch7, tempMatch8
         ];
+
         const tempRound = new Round(matchList, 1);
         tempRound.insertTeams([
             t1,
@@ -165,32 +177,49 @@ export class Tournament {
             kt,
         ]);
 
-        // const matchList2 = [
-        //     new Match(t1, tl, t1, tl),
-        //     new Match(c9, mad, c9, mad),
-        //     new Match(geng, gam, geng, gam),
-        //     new Match(jdg, bds, jdg, bds),
-        //     new Match(g2, dwg, g2, dwg),
-        //     new Match(nrg, wbg, wbg, nrg),
-        //     new Match(fnc, lng, lng, fnc),
-        //     new Match(blg, kt),
-        // ];
-        // const tempRound2 = new Round(matchList2, 2)
+        const matchList2 = [
+            new Match(wbg, g2),
+            new Match(jdg, blg),
+            new Match(lng, c9),
+            new Match(geng, t1),
+        ];
 
-        // const matchList3 = [
-        //     new Match(t1, tl, t1, tl),
-        //     new Match(c9, mad, c9, mad),
-        //     new Match(geng, gam, geng, gam),
-        //     new Match(jdg, bds, jdg, bds),
-        //     new Match(g2, dwg, g2, dwg),
-        //     new Match(nrg, wbg, wbg, nrg),
-        //     new Match(fnc, lng, lng, fnc),
-        //     new Match(blg, kt),
-        // ];
-        // const tempRound3 = new Round(matchList3, 2)
+        const tempRound2 = new Round(matchList2, 2)
 
-        // tempRound.makeComplete()
+        tempRound2.insertTeams([
+            t1,
+            c9,
+            geng,
+            jdg,
+            g2,
+            wbg,
+            lng,
+            blg,
+        ]);
+
+        const matchList3 = [
+            new Match(tl, nrg),
+            new Match(dwg, kt),
+            new Match(bds, mad),
+            new Match(fnc, gam),
+        ];
+        const tempRound3 = new Round(matchList3, 2)
+
+        tempRound3.insertTeams([
+            tl,
+            mad,
+            gam,
+            bds,
+            dwg,
+            nrg,
+            fnc,
+            kt,
+        ]);
+
+        tempRound.makeComplete()
         this.roundList.push(tempRound);
+        this.roundList.push(tempRound2);
+        this.roundList.push(tempRound3);
     }
 
     predictRound(predictions) {
