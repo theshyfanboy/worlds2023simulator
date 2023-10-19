@@ -143,7 +143,7 @@ export class Tournament {
             new Match(g2, dwg, g2, dwg),
             new Match(nrg, wbg, wbg, nrg),
             new Match(fnc, lng, lng, fnc),
-            new Match(blg, kt),
+            new Match(blg, kt, blg, kt),
         ];
         const tempRound = new Round(matchList, 1);
         tempRound.insertTeams([
@@ -164,6 +164,32 @@ export class Tournament {
             blg,
             kt,
         ]);
+
+        // const matchList2 = [
+        //     new Match(t1, tl, t1, tl),
+        //     new Match(c9, mad, c9, mad),
+        //     new Match(geng, gam, geng, gam),
+        //     new Match(jdg, bds, jdg, bds),
+        //     new Match(g2, dwg, g2, dwg),
+        //     new Match(nrg, wbg, wbg, nrg),
+        //     new Match(fnc, lng, lng, fnc),
+        //     new Match(blg, kt),
+        // ];
+        // const tempRound2 = new Round(matchList2, 2)
+
+        // const matchList3 = [
+        //     new Match(t1, tl, t1, tl),
+        //     new Match(c9, mad, c9, mad),
+        //     new Match(geng, gam, geng, gam),
+        //     new Match(jdg, bds, jdg, bds),
+        //     new Match(g2, dwg, g2, dwg),
+        //     new Match(nrg, wbg, wbg, nrg),
+        //     new Match(fnc, lng, lng, fnc),
+        //     new Match(blg, kt),
+        // ];
+        // const tempRound3 = new Round(matchList3, 2)
+
+        // tempRound.makeComplete()
         this.roundList.push(tempRound);
     }
 
