@@ -141,7 +141,7 @@ export class Tournament {
             new Match(geng, gam, geng, gam),
             new Match(jdg, bds, jdg, bds),
             new Match(g2, dwg, g2, dwg),
-            new Match(nrg, wbg),
+            new Match(nrg, wbg, wbg, nrg),
             new Match(fnc, lng),
             new Match(blg, kt),
         ];
