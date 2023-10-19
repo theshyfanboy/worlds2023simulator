@@ -178,9 +178,9 @@ export class Tournament {
         ]);
 
         const matchList2 = [
-            new Match(wbg, g2),
+            new Match(g2, wbg),
             new Match(jdg, blg),
-            new Match(lng, c9),
+            new Match(c9, lng),
             new Match(geng, t1),
         ];
 
@@ -198,9 +198,9 @@ export class Tournament {
         ]);
 
         const matchList3 = [
-            new Match(tl, nrg),
-            new Match(dwg, kt),
-            new Match(bds, mad),
+            new Match(nrg, tl),
+            new Match(kt, dwg),
+            new Match(mad, bds),
             new Match(fnc, gam),
         ];
         const tempRound3 = new Round(matchList3, 2)
