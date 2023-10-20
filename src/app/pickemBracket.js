@@ -9,6 +9,7 @@ export default function PickemBracket() {
     const [tourney, setTourney] = useState(new Tournament());
     const [roundState, setRoundState] = useState([]);
     const [stateSwitch, setStateSwitch] = useState(false);
+    const [repeatSwitch, setRepeatSwitch] = useState(true);
 
     const roundPack = () => {
         const groupedData = tourney.roundList.reduce((result, item) => {
@@ -29,7 +30,7 @@ export default function PickemBracket() {
     }
 
     const makePrediction = (predictions) => {
-        tourney.predictRound(predictions);
+        tourney.predictRound(predictions, repeatSwitch);
         setStateSwitch(!stateSwitch)
     }
 
@@ -42,7 +43,7 @@ export default function PickemBracket() {
     return <div>
         <div className={styles.runButtonContainer}>
             <button onClick={() => {
-                tourney.generateNextRound()
+                tourney.generateNextRound(repeatSwitch)
                 setStateSwitch(!stateSwitch)
             }
             }
@@ -50,7 +51,7 @@ export default function PickemBracket() {
                 Random (East Biased)
             </button>
             <button onClick={() => {
-                tourney.generateNextRoundRnd()
+                tourney.generateNextRoundRnd(repeatSwitch)
                 setStateSwitch(!stateSwitch)
             }
             }
@@ -58,6 +59,7 @@ export default function PickemBracket() {
                 Completely Random
             </button>
             <button onClick={() => { setTourney(new Tournament); setRoundState([]); setStateSwitch(false); }} className={styles.runButton}>Reset</button>
+            {/* <input className={styles.checkBox} type="checkbox" id="no-repeat" name="no-repeat" checked={!repeatSwitch} onChange={() => { setRepeatSwitch(!repeatSwitch) }} /><label className={styles.checkBoxLabel} htmlFor="no-repeat"> No Repeat Matches </label> */}
         </div>
 
         <div className={styles.roundContainer}>
@@ -66,7 +68,6 @@ export default function PickemBracket() {
                 for (var i = 0; i < rounds.length; i++) {
                     roundSum += rounds[i].matchList.length
                 }
-                console.log(roundSum)
                 return <div>
                     <Round roundHistory={rounds} actionButton={makePrediction} roundStatus={rounds[0].complete} roundCount={roundSum} />
                 </div>

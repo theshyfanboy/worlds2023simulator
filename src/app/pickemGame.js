@@ -15,6 +15,7 @@ import fnclogo from '../../public/teams/webp/fnc.webp';
 import lnglogo from '../../public/teams/webp/lng.webp';
 import blglogo from '../../public/teams/webp/blg.webp';
 import ktlogo from '../../public/teams/webp/kt.webp';
+import next from 'next';
 
 export class Team {
     constructor(name, region, imageObj) {
@@ -74,12 +75,12 @@ export class Match {
 }
 
 export class Round {
-    constructor(matchesToAdd, roundNumber) {
+    constructor(matchesToAdd, roundNumber, win = -1, loss = -1) {
         this.complete = false;
         this.matchList = matchesToAdd;
         this.teamPlaying = [];
-        this.win = -1;
-        this.loss = -1;
+        this.win = win;
+        this.loss = loss;
         this.number = roundNumber;
     }
 
@@ -113,6 +114,35 @@ function shuffleArray(array) {
     }
 }
 
+function pairObjects(arr, disallowedPairs, repeatMatch) {
+    console.log("Matches Repeat" + repeatMatch)
+    const validPairs = [];
+    const unpairedElements = [...arr];
+
+    while (unpairedElements.length >= 2) {
+        const currentElement = unpairedElements.pop();
+
+        for (let i = 0; i < unpairedElements.length; i++) {
+            const nextElement = unpairedElements[i];
+
+            if (repeatMatch) {
+                validPairs.push([currentElement, nextElement]);
+                unpairedElements.splice(i, 1);
+                break;
+            } else {
+                if (
+                    disallowedPairs.findIndex(obj => (obj.firstteam == currentElement && obj.secondteam == nextElement) || (obj.firstteam == nextElement && obj.secondteam == currentElement)) == -1
+                ) {
+                    validPairs.push([currentElement, nextElement]);
+                    unpairedElements.splice(i, 1);
+                    break;
+                }
+            }
+        }
+    }
+    return validPairs;
+}
+
 export class Tournament {
     constructor() {
         const blg = new Team('BLG', 'East', blglogo);
@@ -131,10 +161,12 @@ export class Tournament {
         const bds = new Team('BDS', 'West', bdslogo);
         const tl = new Team('TL', 'West', tllogo);
         const wbg = new Team('WBG', 'East', wbglogo);
+
         this.roundList = [];
         this.qualified = [];
         this.disqualified = [];
-        this.roundNo = 2;
+        this.roundNo = 3;
+
         const tempMatch1 = new Match(t1, tl)
         const tempMatch2 = new Match(c9, mad)
         const tempMatch3 = new Match(geng, gam)
@@ -144,20 +176,11 @@ export class Tournament {
         const tempMatch7 = new Match(fnc, lng)
         const tempMatch8 = new Match(blg, kt)
 
-        tempMatch1.setWinner(0)
-        tempMatch2.setWinner(0)
-        tempMatch3.setWinner(0)
-        tempMatch4.setWinner(0)
-        tempMatch5.setWinner(0)
-        tempMatch6.setWinner(1)
-        tempMatch7.setWinner(1)
-        tempMatch8.setWinner(0)
-
         const matchList = [
             tempMatch1, tempMatch2, tempMatch3, tempMatch4, tempMatch5, tempMatch6, tempMatch7, tempMatch8
         ];
 
-        const tempRound = new Round(matchList, 1);
+        const tempRound = new Round(matchList, 1, 0, 0);
         tempRound.insertTeams([
             t1,
             tl,
@@ -177,14 +200,29 @@ export class Tournament {
             kt,
         ]);
 
+
+        tempMatch1.setWinner(0)
+        tempMatch2.setWinner(0)
+        tempMatch3.setWinner(0)
+        tempMatch4.setWinner(0)
+        tempMatch5.setWinner(0)
+        tempMatch6.setWinner(1)
+        tempMatch7.setWinner(1)
+        tempMatch8.setWinner(0)
+
+        tempRound.makeComplete()
+        this.roundList.push(tempRound);
+
+        const tempMatch9 = new Match(g2, wbg)
+        const tempMatch10 = new Match(jdg, blg)
+        const tempMatch11 = new Match(c9, lng)
+        const tempMatch12 = new Match(geng, t1)
+
         const matchList2 = [
-            new Match(g2, wbg),
-            new Match(jdg, blg),
-            new Match(c9, lng),
-            new Match(geng, t1),
+            tempMatch9, tempMatch10, tempMatch11, tempMatch12,
         ];
 
-        const tempRound2 = new Round(matchList2, 2)
+        const tempRound2 = new Round(matchList2, 2, 1, 0)
 
         tempRound2.insertTeams([
             t1,
@@ -197,13 +235,24 @@ export class Tournament {
             blg,
         ]);
 
+        tempMatch9.setWinner(0)
+        tempMatch10.setWinner(0)
+        tempMatch11.setWinner(1)
+        tempMatch12.setWinner(0)
+
+        tempRound2.makeComplete()
+        this.roundList.push(tempRound2);
+
+        const tempMatch13 = new Match(nrg, tl)
+        const tempMatch14 = new Match(kt, dwg)
+        const tempMatch15 = new Match(mad, bds)
+        const tempMatch16 = new Match(fnc, gam)
+
         const matchList3 = [
-            new Match(nrg, tl),
-            new Match(kt, dwg),
-            new Match(mad, bds),
-            new Match(fnc, gam),
+            tempMatch13, tempMatch14, tempMatch15, tempMatch16
         ];
-        const tempRound3 = new Round(matchList3, 2)
+
+        const tempRound3 = new Round(matchList3, 2, 0, 1)
 
         tempRound3.insertTeams([
             tl,
@@ -216,13 +265,57 @@ export class Tournament {
             kt,
         ]);
 
-        tempRound.makeComplete()
-        this.roundList.push(tempRound);
-        this.roundList.push(tempRound2);
+        tempMatch13.setWinner(0)
+        tempMatch14.setWinner(0)
+        tempMatch15.setWinner(0)
+        tempMatch16.setWinner(0)
+
+        tempRound3.makeComplete()
         this.roundList.push(tempRound3);
+
+        const tempMatch17 = new Match(jdg, lng)
+        const tempMatch18 = new Match(g2, geng)
+
+        const matchList4 = [tempMatch17, tempMatch18]
+
+        const tempRound4 = new Round(matchList4, 3)
+
+        tempRound4.insertTeams([
+            jdg, lng, g2, geng
+        ]);
+
+        this.roundList.push(tempRound4)
+
+        const tempMatch19 = new Match(t1, c9)
+        const tempMatch20 = new Match(nrg, mad)
+        const tempMatch21 = new Match(blg, fnc)
+        const tempMatch22 = new Match(kt, wbg)
+
+        const matchList5 = [tempMatch19, tempMatch20, tempMatch21, tempMatch22]
+
+        const tempRound5 = new Round(matchList5, 3)
+
+        tempRound5.insertTeams([
+            t1, c9, nrg, mad, blg, fnc, kt, wbg
+        ]);
+
+        this.roundList.push(tempRound5)
+
+        const tempMatch23 = new Match(tl, gam)
+        const tempMatch24 = new Match(dwg, bds)
+
+        const matchList6 = [tempMatch23, tempMatch24]
+
+        const tempRound6 = new Round(matchList6, 3)
+
+        tempRound6.insertTeams([
+            tl, gam, dwg, bds
+        ]);
+
+        this.roundList.push(tempRound6)
     }
 
-    predictRound(predictions) {
+    predictRound(predictions, repeatMatch = true) {
         const tempList = [];
         for (let i = 0; i < this.roundList.length; i++) {
             const temp = this.roundList[i];
@@ -304,12 +397,26 @@ export class Tournament {
             temp.makeComplete();
         }
 
+        let allMatches = []
+        for (let i = 0; i < this.roundList.length; i++) {
+            let currentRound = this.roundList[i].matchList
+            for (let j = 0; j < currentRound.length; j++) {
+                allMatches.push(currentRound[j]);
+            }
+        }
+
         for (let i = 0; i < tempList.length; i++) {
             const current = tempList[i].teamPlaying;
             shuffleArray(current);
-            for (let j = 0; j < current.length; j += 2) {
-                tempList[i].insertMatch([new Match(current[j], current[j + 1])]);
+            let matchPairs = pairObjects(current, allMatches, repeatMatch);
+
+            for (let j = 0; j < matchPairs.length; j++) {
+                tempList[i].insertMatch([new Match(matchPairs[j][0], matchPairs[j][1])]);
             }
+
+            // for (let j = 0; j < current.length; j += 2) {
+            //     tempList[i].insertMatch([new Match(current[j], current[j + 1])]);
+            // }
         }
 
         for (let i = 0; i < tempList.length; i++) {
@@ -319,7 +426,7 @@ export class Tournament {
         this.roundNo += 1
     }
 
-    generateNextRoundRnd() {
+    generateNextRoundRnd(repeatMatch = true) {
         const tempList = [];
         for (let i = 0; i < this.roundList.length; i++) {
             const temp = this.roundList[i];
@@ -393,12 +500,20 @@ export class Tournament {
 
             temp.makeComplete();
         }
-
+        let allMatches = []
+        for (let i = 0; i < this.roundList.length; i++) {
+            let currentRound = this.roundList[i].matchList
+            for (let j = 0; j < currentRound.length; j++) {
+                allMatches.push(currentRound[j]);
+            }
+        }
         for (let i = 0; i < tempList.length; i++) {
             const current = tempList[i].teamPlaying;
             shuffleArray(current);
-            for (let j = 0; j < current.length; j += 2) {
-                tempList[i].insertMatch([new Match(current[j], current[j + 1])]);
+            let matchPairs = pairObjects(current, allMatches, repeatMatch);
+
+            for (let j = 0; j < matchPairs.length; j++) {
+                tempList[i].insertMatch([new Match(matchPairs[j][0], matchPairs[j][1])]);
             }
         }
 
@@ -408,7 +523,7 @@ export class Tournament {
 
         this.roundNo += 1
     }
-    generateNextRound() {
+    generateNextRound(repeatMatch = true) {
         const tempList = [];
         for (let i = 0; i < this.roundList.length; i++) {
             const temp = this.roundList[i];
@@ -483,12 +598,20 @@ export class Tournament {
 
             temp.makeComplete();
         }
-
+        let allMatches = []
+        for (let i = 0; i < this.roundList.length; i++) {
+            let currentRound = this.roundList[i].matchList
+            for (let j = 0; j < currentRound.length; j++) {
+                allMatches.push(currentRound[j]);
+            }
+        }
         for (let i = 0; i < tempList.length; i++) {
             const current = tempList[i].teamPlaying;
             shuffleArray(current);
-            for (let j = 0; j < current.length; j += 2) {
-                tempList[i].insertMatch([new Match(current[j], current[j + 1])]);
+            let matchPairs = pairObjects(current, allMatches, repeatMatch);
+
+            for (let j = 0; j < matchPairs.length; j++) {
+                tempList[i].insertMatch([new Match(matchPairs[j][0], matchPairs[j][1])]);
             }
         }
 
