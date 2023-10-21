@@ -284,6 +284,7 @@ export class Tournament {
             jdg, lng, g2, geng
         ]);
 
+        tempMatch17.setWinner(0)
         this.roundList.push(tempRound4)
 
         const tempMatch19 = new Match(t1, c9)
@@ -311,6 +312,7 @@ export class Tournament {
         tempRound6.insertTeams([
             tl, gam, dwg, bds
         ]);
+
 
         this.roundList.push(tempRound6)
     }
