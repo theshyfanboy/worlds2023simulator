@@ -284,7 +284,8 @@ export class Tournament {
             jdg, lng, g2, geng
         ]);
 
-        tempMatch17.setWinner(0)
+        // tempMatch17.setWinner(0)
+        // tempMatch18.setWinner(0)
         this.roundList.push(tempRound4)
 
         const tempMatch19 = new Match(t1, c9)
