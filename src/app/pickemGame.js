@@ -273,8 +273,8 @@ export class Tournament {
         tempRound3.makeComplete()
         this.roundList.push(tempRound3);
 
-        const tempMatch17 = new Match(jdg, lng)
-        const tempMatch18 = new Match(g2, geng)
+        const tempMatch17 = new Match(jdg, lng, jdg, lng)
+        const tempMatch18 = new Match(g2, geng, geng, g2)
 
         const matchList4 = [tempMatch17, tempMatch18]
 
@@ -284,9 +284,8 @@ export class Tournament {
             jdg, lng, g2, geng
         ]);
 
-        // tempMatch17.setWinner(0)
-        // tempMatch18.setWinner(0)
         this.roundList.push(tempRound4)
+
 
         const tempMatch19 = new Match(t1, c9)
         const tempMatch20 = new Match(nrg, mad)
@@ -301,6 +300,11 @@ export class Tournament {
             t1, c9, nrg, mad, blg, fnc, kt, wbg
         ]);
 
+        // tempMatch19.setWinner(0)
+        // tempMatch20.setWinner(1)
+        // tempMatch21.setWinner(0)
+        // tempMatch22.setWinner(0)
+        // tempRound5.makeComplete()
         this.roundList.push(tempRound5)
 
         const tempMatch23 = new Match(tl, gam)
@@ -314,7 +318,9 @@ export class Tournament {
             tl, gam, dwg, bds
         ]);
 
-
+        // tempMatch23.setWinner(0)
+        // tempMatch24.setWinner(0)
+        // tempRound6.makeComplete()
         this.roundList.push(tempRound6)
     }
 
@@ -332,6 +338,7 @@ export class Tournament {
             for (let j = 0; j < predictions.length; j++) {
                 if (temp.win == predictions[j].roundwin && temp.loss == predictions[j].roundloss) {
                     for (let i = 0; i < temp.matchList.length; i++) {
+                        console.log(temp.matchList[i])
                         if (predictions[j].cMatch.firstteam.name == temp.matchList[i].firstteam.name && predictions[j].cMatch.secondteam.name == temp.matchList[i].secondteam.name) {
                             temp.matchList[i].setWinner(parseInt(predictions[j].picked));
                             if (temp.matchList[i].winner.wins < 3) {
