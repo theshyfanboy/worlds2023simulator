@@ -289,8 +289,8 @@ export class Tournament {
 
         const tempMatch19 = new Match(t1, c9, t1, c9)
         const tempMatch20 = new Match(nrg, mad, nrg, mad)
-        const tempMatch21 = new Match(blg, fnc)
-        const tempMatch22 = new Match(kt, wbg)
+        const tempMatch21 = new Match(blg, fnc, blg, fnc)
+        const tempMatch22 = new Match(kt, wbg, kt, wbg)
 
         const matchList5 = [tempMatch19, tempMatch20, tempMatch21, tempMatch22]
 
