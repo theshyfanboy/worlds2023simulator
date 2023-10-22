@@ -287,7 +287,7 @@ export class Tournament {
         this.roundList.push(tempRound4)
 
 
-        const tempMatch19 = new Match(t1, c9)
+        const tempMatch19 = new Match(t1, c9, t1, c9)
         const tempMatch20 = new Match(nrg, mad)
         const tempMatch21 = new Match(blg, fnc)
         const tempMatch22 = new Match(kt, wbg)
