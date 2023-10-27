@@ -343,7 +343,7 @@ export class Tournament {
         this.roundList.push(tempRound6)
 
         //Round 4
-        const tempMatch25 = new Match(kt, lng)
+        const tempMatch25 = new Match(kt, lng, lng, kt)
         const tempMatch26 = new Match(nrg, g2)
         const tempMatch27 = new Match(t1, blg)
 
