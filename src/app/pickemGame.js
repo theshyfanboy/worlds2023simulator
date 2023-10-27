@@ -365,7 +365,7 @@ export class Tournament {
         //Round 4
         const tempMatch28 = new Match(c9, fnc, fnc, c9)
         const tempMatch29 = new Match(mad, wbg, wbg, mad)
-        const tempMatch30 = new Match(dwg, gam)
+        const tempMatch30 = new Match(dwg, gam, dwg, gam)
 
         const matchList8 = [tempMatch28, tempMatch29, tempMatch30]
 
