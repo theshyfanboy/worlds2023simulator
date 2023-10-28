@@ -4,12 +4,15 @@ import { React, useEffect, useState } from 'react';
 import styles from './page.module.css';
 import Image from 'next/image'
 import Round from "./round.js";
+import { useRouter } from 'next/navigation'
 
 export default function PickemBracket() {
     const [tourney, setTourney] = useState(new Tournament());
     const [roundState, setRoundState] = useState([]);
     const [stateSwitch, setStateSwitch] = useState(false);
     const [repeatSwitch, setRepeatSwitch] = useState(true);
+    const [qualified, setQualified] = useState([])
+    const router = useRouter()
 
     const roundPack = () => {
         const groupedData = tourney.roundList.reduce((result, item) => {
@@ -38,6 +41,10 @@ export default function PickemBracket() {
         if (tourney.roundList.length != 0) {
             roundPack();
         }
+        if (tourney.qualified.length === 8) {
+            setQualified([...tourney.qualified])
+            localStorage.setItem("qualified", JSON.stringify([...tourney.qualified]))
+        }
     }, [stateSwitch, tourney]);
 
     return <div>
@@ -58,8 +65,8 @@ export default function PickemBracket() {
                 className={styles.runButton}>
                 Completely Random
             </button>
-            <button onClick={() => { setTourney(new Tournament); setRoundState([]); setStateSwitch(false); }} className={styles.runButton}>Reset</button>
-            {/* <input className={styles.checkBox} type="checkbox" id="no-repeat" name="no-repeat" checked={!repeatSwitch} onChange={() => { setRepeatSwitch(!repeatSwitch) }} /><label className={styles.checkBoxLabel} htmlFor="no-repeat"> No Repeat Matches </label> */}
+            <button onClick={() => { setTourney(new Tournament); setRoundState([]); setStateSwitch(false); setQualified([]); }} className={styles.runButton}>Reset</button>
+            {qualified.length === 8 ? <button onClick={() => { router.push('/bracket') }} className={styles.runButton}>Goto BracketStage</button> : <></>}
         </div>
 
         <div className={styles.roundContainer}>

@@ -15,7 +15,6 @@ import fnclogo from '../../public/teams/webp/fnc.webp';
 import lnglogo from '../../public/teams/webp/lng.webp';
 import blglogo from '../../public/teams/webp/blg.webp';
 import ktlogo from '../../public/teams/webp/kt.webp';
-import next from 'next';
 
 export class Team {
     constructor(name, region, imageObj) {
@@ -82,6 +81,7 @@ export class Round {
         this.win = win;
         this.loss = loss;
         this.number = roundNumber;
+        this.name = ""
     }
 
     insertMatch(matches) {
@@ -115,7 +115,6 @@ function shuffleArray(array) {
 }
 
 function pairObjects(arr, disallowedPairs, repeatMatch) {
-    console.log("Matches Repeat" + repeatMatch)
     const validPairs = [];
     const unpairedElements = [...arr];
 
@@ -410,7 +409,6 @@ export class Tournament {
         // tempRound8.makeComplete()
         this.roundList.push(tempRound9)
 
-
     }
 
     predictRound(predictions, repeatMatch = true) {
@@ -427,7 +425,6 @@ export class Tournament {
             for (let j = 0; j < predictions.length; j++) {
                 if (temp.win == predictions[j].roundwin && temp.loss == predictions[j].roundloss) {
                     for (let i = 0; i < temp.matchList.length; i++) {
-                        console.log(temp.matchList[i])
                         if (predictions[j].cMatch.firstteam.name == temp.matchList[i].firstteam.name && predictions[j].cMatch.secondteam.name == temp.matchList[i].secondteam.name) {
                             temp.matchList[i].setWinner(parseInt(predictions[j].picked));
                             if (temp.matchList[i].winner.wins < 3) {
@@ -523,6 +520,8 @@ export class Tournament {
         }
 
         this.roundNo += 1
+
+        return this.qualified.length == 8
     }
 
     generateNextRoundRnd(repeatMatch = true) {
@@ -622,6 +621,7 @@ export class Tournament {
 
         this.roundNo += 1
     }
+
     generateNextRound(repeatMatch = true) {
         const tempList = [];
         for (let i = 0; i < this.roundList.length; i++) {
@@ -715,6 +715,209 @@ export class Tournament {
         }
 
         for (let i = 0; i < tempList.length; i++) {
+            this.roundList.push(tempList[i]);
+        }
+
+        this.roundNo += 1
+    }
+}
+
+const findMissingNumber = (subarray) => {
+    const allNumbers = [5, 6, 7];
+    for (const number of allNumbers) {
+        if (!subarray.includes(number)) {
+            return number;
+        }
+    }
+    return null; // If all numbers are found, there is no missing number
+}
+
+const choices = [[5, 6], [6, 7], [5, 7], [6, 5], [7, 6], [7, 5]]
+
+export class BracketStageTournament {
+    constructor(qualified) {
+        this.roundNo = 1;
+        this.roundList = []
+        this.winner = []
+        this.disqualified = []
+
+        //first teams to qualify
+        const rank11Team = qualified[0]
+        const rank12Team = qualified[1]
+
+        //randomize last qualified
+        let prediction = Math.floor(Math.random() * 6);
+        let randomChoice = choices[prediction]
+        let unluckyTeamOne = qualified[randomChoice[0]]
+        let unluckyTeamTwo = qualified[randomChoice[1]]
+
+        //create two brackets
+        let remainingTeams = [qualified[2], qualified[3], qualified[4], qualified[findMissingNumber(randomChoice)]]
+        let bracket1 = [new Match(rank11Team, unluckyTeamOne)]
+        let bracket2 = [new Match(rank12Team, unluckyTeamTwo)]
+        shuffleArray(remainingTeams)
+        bracket1.push(new Match(remainingTeams[0], remainingTeams[1]))
+        bracket2.push(new Match(remainingTeams[2], remainingTeams[3]))
+
+        let round1 = new Round(bracket1, 1)
+
+        let round2 = new Round(bracket2, 1)
+
+        round1.name = "Quarter Finals"
+        round2.name = "Quarter Finals"
+
+        this.roundList.push(round1)
+        this.roundList.push(round2)
+    }
+
+    predictRound(predictions, repeatMatch = true) {
+        const tempList = [];
+        for (let i = 0; i < this.roundList.length; i++) {
+            const temp = this.roundList[i];
+            if (temp.complete === true) {
+                continue;
+            }
+
+            const upper = [];
+            const lower = [];
+
+            for (let j = 0; j < predictions.length; j++) {
+                if (temp.win == predictions[j].roundwin && temp.loss == predictions[j].roundloss) {
+                    for (let i = 0; i < temp.matchList.length; i++) {
+                        if (predictions[j].cMatch.firstteam.name == temp.matchList[i].firstteam.name && predictions[j].cMatch.secondteam.name == temp.matchList[i].secondteam.name) {
+                            temp.matchList[i].setWinner(parseInt(predictions[j].picked));
+                            if (temp.matchList[i].winner.wins < 6) {
+                                upper.push(temp.matchList[i].winner);
+                            } else if (temp.matchList[i].winner.wins === 6) {
+                                this.winner.push(temp.matchList[i].winner);
+                            }
+                            this.disqualified.push(temp.matchList[i].loser)
+                            break;
+                        }
+                    }
+                }
+            }
+
+            const newRound = new Round([], this.roundNo + 1);
+            let upperSwap = true;
+            let upperIndex = -1;
+
+            if (upper.length !== 0) {
+                for (let i = 0; i < tempList.length; i++) {
+                    if (
+                        tempList[i].win === upper[0].wins && upper[0].wins == 5
+                    ) {
+                        upperIndex = i;
+                        upperSwap = false;
+                        break;
+                    }
+                }
+
+                if (upper.length !== 0 && upperSwap) {
+                    newRound.insertTeams(upper);
+                    tempList.push(newRound);
+                } else if (upper.length !== 0 && !upperSwap) {
+                    tempList[upperIndex].insertTeams(upper);
+                }
+            }
+
+            temp.makeComplete();
+        }
+
+        for (let i = 0; i < tempList.length; i++) {
+            const current = tempList[i].teamPlaying;
+
+            for (let j = 0; j < current.length; j += 2) {
+                tempList[i].insertMatch([new Match(current[j], current[j + 1])]);
+            }
+        }
+
+        for (let i = 0; i < tempList.length; i++) {
+            console.log(tempList[i].matchList)
+            if (tempList[i].matchList[0].firstteam.wins == 3) {
+                tempList[i].name = "Quarter Finals"
+            } else if (tempList[i].matchList[0].firstteam.wins == 4) {
+                console.log("gigi")
+                tempList[i].name = "Semi Finals"
+            } else if (tempList[i].matchList[0].firstteam.wins == 5) {
+                console.log("gigi")
+                tempList[i].name = "Grand Finals"
+            }
+
+            this.roundList.push(tempList[i]);
+        }
+
+        this.roundNo += 1
+    }
+
+    generateNextRoundRnd(repeatMatch = true) {
+        const tempList = [];
+        for (let i = 0; i < this.roundList.length; i++) {
+            const temp = this.roundList[i];
+            if (temp.complete === true) {
+                continue;
+            }
+
+            const upper = [];
+            for (let i = 0; i < temp.matchList.length; i++) {
+                // const rd = parseInt(prompt());
+                const rd = RuleBook(temp.matchList[i].firstteam, temp.matchList[i].secondteam);
+                temp.matchList[i].setWinner(rd);
+                if (temp.matchList[i].winner.wins < 6) {
+                    upper.push(temp.matchList[i].winner);
+                } else if (temp.matchList[i].winner.wins === 6) {
+                    this.winner.push(temp.matchList[i].winner);
+                }
+
+                this.disqualified.push(temp.matchList[i].loser)
+            }
+
+            const newRound = new Round([], this.roundNo + 1);
+            let upperSwap = true;
+            let upperIndex = -1;
+
+            if (upper.length !== 0) {
+                for (let i = 0; i < tempList.length; i++) {
+                    if (
+                        tempList[i].win === upper[0].wins && upper[0].wins == 5
+                    ) {
+                        upperIndex = i;
+                        upperSwap = false;
+                        break;
+                    }
+                }
+
+                if (upper.length !== 0 && upperSwap) {
+                    newRound.insertTeams(upper);
+                    tempList.push(newRound);
+                } else if (upper.length !== 0 && !upperSwap) {
+                    tempList[upperIndex].insertTeams(upper);
+                }
+            }
+
+            temp.makeComplete();
+        }
+
+        for (let i = 0; i < tempList.length; i++) {
+            const current = tempList[i].teamPlaying;
+
+            for (let j = 0; j < current.length; j += 2) {
+                tempList[i].insertMatch([new Match(current[j], current[j + 1])]);
+            }
+        }
+
+        for (let i = 0; i < tempList.length; i++) {
+            console.log(tempList[i].matchList)
+            if (tempList[i].matchList[0].firstteam.wins == 3) {
+                tempList[i].name = "Quarter Finals"
+            } else if (tempList[i].matchList[0].firstteam.wins == 4) {
+                console.log("gigi")
+                tempList[i].name = "Semi Finals"
+            } else if (tempList[i].matchList[0].firstteam.wins == 5) {
+                console.log("gigi")
+                tempList[i].name = "Grand Finals"
+            }
+
             this.roundList.push(tempList[i]);
         }
 
