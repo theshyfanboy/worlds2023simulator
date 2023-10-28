@@ -165,7 +165,7 @@ export class Tournament {
         this.roundList = [];
         this.qualified = [];
         this.disqualified = [];
-        this.roundNo = 4;
+        this.roundNo = 5;
 
         const tempMatch1 = new Match(t1, tl)
         const tempMatch2 = new Match(c9, mad)
@@ -343,8 +343,8 @@ export class Tournament {
         this.roundList.push(tempRound6)
 
         //Round 4
-        const tempMatch25 = new Match(kt, lng, lng, kt)
-        const tempMatch26 = new Match(nrg, g2, nrg, g2)
+        const tempMatch25 = new Match(kt, lng)
+        const tempMatch26 = new Match(nrg, g2)
         const tempMatch27 = new Match(t1, blg)
 
         const matchList7 = [tempMatch25, tempMatch26, tempMatch27]
@@ -355,17 +355,21 @@ export class Tournament {
             kt, lng, nrg, g2, t1, blg
         ]);
 
-        // tempMatch25.setWinner()
-        // tempMatch26.setWinner()
-        // tempMatch27.setWinner()
+        this.qualified.push(lng)
+        this.qualified.push(nrg)
+        this.qualified.push(t1)
 
-        // tempRound7.makeComplete()
+        tempMatch25.setWinner(1)
+        tempMatch26.setWinner(0)
+        tempMatch27.setWinner(0)
+
+        tempRound7.makeComplete()
         this.roundList.push(tempRound7)
 
         //Round 4
-        const tempMatch28 = new Match(c9, fnc, fnc, c9)
-        const tempMatch29 = new Match(mad, wbg, wbg, mad)
-        const tempMatch30 = new Match(dwg, gam, dwg, gam)
+        const tempMatch28 = new Match(c9, fnc)
+        const tempMatch29 = new Match(mad, wbg)
+        const tempMatch30 = new Match(dwg, gam)
 
         const matchList8 = [tempMatch28, tempMatch29, tempMatch30]
 
@@ -375,14 +379,36 @@ export class Tournament {
             c9, fnc, mad, wbg, dwg, gam
         ]);
 
-        // tempMatch25.setWinner()
-        // tempMatch26.setWinner()
-        // tempMatch27.setWinner()
+        this.disqualified.push(c9)
+        this.disqualified.push(mad)
+        this.disqualified.push(gam)
 
-        // tempRound8.makeComplete()
+        tempMatch28.setWinner(1)
+        tempMatch29.setWinner(1)
+        tempMatch30.setWinner(0)
+
+        tempRound8.makeComplete()
         this.roundList.push(tempRound8)
 
+        //Round 5
+        const tempMatch31 = new Match(wbg, fnc)
+        const tempMatch32 = new Match(g2, blg)
+        const tempMatch33 = new Match(dwg, kt)
 
+        const matchList9 = [tempMatch31, tempMatch32, tempMatch33]
+
+        const tempRound9 = new Round(matchList9, 5)
+
+        tempRound9.insertTeams([
+            kt, g2, blg, c9, mad, dwg
+        ]);
+
+        // tempMatch31.setWinner()
+        // tempMatch32.setWinner()
+        // tempMatch33.setWinner()
+
+        // tempRound8.makeComplete()
+        this.roundList.push(tempRound9)
 
 
     }
