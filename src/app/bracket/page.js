@@ -6,10 +6,11 @@ import Image from 'next/image'
 import styles from '../page.module.css';
 
 export default function BracketStage() {
-    const [tourney, setTourney] = useState(new BracketStageTournament(JSON.parse(localStorage.getItem("qualified"))));
+    const [tourney, setTourney] = useState(new BracketStageTournament());
     const [roundState, setRoundState] = useState([]);
     const [stateSwitch, setStateSwitch] = useState(false);
     const [repeatSwitch, setRepeatSwitch] = useState(true);
+    const [renderFirstSwitch, setRenderFirstSwitch] = useState(false)
 
     const roundPack = () => {
         const groupedData = tourney.roundList.reduce((result, item) => {
@@ -30,7 +31,11 @@ export default function BracketStage() {
     }
 
     useEffect(() => {
-        if (tourney.roundList.length != 0) {
+        if (!renderFirstSwitch) {
+            setTourney(new BracketStageTournament(JSON.parse(localStorage.getItem("qualified"))))
+            setRenderFirstSwitch(true)
+        }
+        if (tourney.ready && tourney.roundList.length != 0) {
             roundPack();
         }
     }, [stateSwitch, tourney]);
@@ -74,12 +79,12 @@ export default function BracketStage() {
 
                     <div className={styles.qualifyBody}>
                         {
-                            tourney.winner.map((team) =>
+                            tourney.ready ? tourney.winner.map((team) =>
                                 <div className={styles.imageContainer}>
                                     <Image width={60} src={team.image} alt={team.name} />
                                 </div>
 
-                            )
+                            ) : <></>
                         }
                     </div>
                 </div>
@@ -94,12 +99,13 @@ export default function BracketStage() {
 
                     <div className={styles.qualifyBody}>
                         {
-                            tourney.disqualified.map((team) =>
-                                <div className={styles.imageContainer}>
-                                    <Image width={60} src={team.image} alt={team.name} />
-                                </div>
+                            tourney.ready ?
+                                tourney.disqualified.map((team) =>
+                                    <div className={styles.imageContainer}>
+                                        <Image width={60} src={team.image} alt={team.name} />
+                                    </div>
 
-                            )
+                                ) : <></>
                         }
                     </div>
                 </div>

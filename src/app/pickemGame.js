@@ -736,38 +736,43 @@ const choices = [[5, 6], [6, 7], [5, 7], [6, 5], [7, 6], [7, 5]]
 
 export class BracketStageTournament {
     constructor(qualified) {
-        this.roundNo = 1;
-        this.roundList = []
-        this.winner = []
-        this.disqualified = []
+        if (qualified) {
+            this.ready = true
+            this.roundNo = 1;
+            this.roundList = []
+            this.winner = []
+            this.disqualified = []
 
-        //first teams to qualify
-        const rank11Team = qualified[0]
-        const rank12Team = qualified[1]
+            //first teams to qualify
+            const rank11Team = qualified[0]
+            const rank12Team = qualified[1]
 
-        //randomize last qualified
-        let prediction = Math.floor(Math.random() * 6);
-        let randomChoice = choices[prediction]
-        let unluckyTeamOne = qualified[randomChoice[0]]
-        let unluckyTeamTwo = qualified[randomChoice[1]]
+            //randomize last qualified
+            let prediction = Math.floor(Math.random() * 6);
+            let randomChoice = choices[prediction]
+            let unluckyTeamOne = qualified[randomChoice[0]]
+            let unluckyTeamTwo = qualified[randomChoice[1]]
 
-        //create two brackets
-        let remainingTeams = [qualified[2], qualified[3], qualified[4], qualified[findMissingNumber(randomChoice)]]
-        let bracket1 = [new Match(rank11Team, unluckyTeamOne)]
-        let bracket2 = [new Match(rank12Team, unluckyTeamTwo)]
-        shuffleArray(remainingTeams)
-        bracket1.push(new Match(remainingTeams[0], remainingTeams[1]))
-        bracket2.push(new Match(remainingTeams[2], remainingTeams[3]))
+            //create two brackets
+            let remainingTeams = [qualified[2], qualified[3], qualified[4], qualified[findMissingNumber(randomChoice)]]
+            let bracket1 = [new Match(rank11Team, unluckyTeamOne)]
+            let bracket2 = [new Match(rank12Team, unluckyTeamTwo)]
+            shuffleArray(remainingTeams)
+            bracket1.push(new Match(remainingTeams[0], remainingTeams[1]))
+            bracket2.push(new Match(remainingTeams[2], remainingTeams[3]))
 
-        let round1 = new Round(bracket1, 1)
+            let round1 = new Round(bracket1, 1)
 
-        let round2 = new Round(bracket2, 1)
+            let round2 = new Round(bracket2, 1)
 
-        round1.name = "Quarter Finals"
-        round2.name = "Quarter Finals"
+            round1.name = "Quarter Finals"
+            round2.name = "Quarter Finals"
 
-        this.roundList.push(round1)
-        this.roundList.push(round2)
+            this.roundList.push(round1)
+            this.roundList.push(round2)
+        } else {
+            this.ready = false
+        }
     }
 
     predictRound(predictions, repeatMatch = true) {
