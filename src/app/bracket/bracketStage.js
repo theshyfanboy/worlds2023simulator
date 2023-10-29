@@ -31,10 +31,6 @@ export default function BracketStage() {
     }
 
     useEffect(() => {
-        if (!renderFirstSwitch) {
-            setTourney(new BracketStageTournament(JSON.parse(localStorage.getItem("qualified"))))
-            setRenderFirstSwitch(true)
-        }
         if (tourney.ready && tourney.roundList.length != 0) {
             roundPack();
         }

@@ -390,9 +390,9 @@ export class Tournament {
         this.roundList.push(tempRound8)
 
         //Round 5
-        const tempMatch31 = new Match(wbg, fnc)
-        const tempMatch32 = new Match(g2, blg)
-        const tempMatch33 = new Match(dwg, kt)
+        const tempMatch31 = new Match(kt, dwg)
+        const tempMatch32 = new Match(fnc, wbg)
+        const tempMatch33 = new Match(g2, blg)
 
         const matchList9 = [tempMatch31, tempMatch32, tempMatch33]
 
@@ -402,11 +402,19 @@ export class Tournament {
             kt, g2, blg, c9, mad, dwg
         ]);
 
-        // tempMatch31.setWinner()
-        // tempMatch32.setWinner()
-        // tempMatch33.setWinner()
+        tempMatch31.setWinner(0)
+        tempMatch32.setWinner(1)
+        tempMatch33.setWinner(1)
 
-        // tempRound8.makeComplete()
+        this.qualified.push(kt)
+        this.qualified.push(wbg)
+        this.qualified.push(blg)
+
+        this.disqualified.push(dwg)
+        this.disqualified.push(fnc)
+        this.disqualified.push(g2)
+
+        tempRound9.makeComplete()
         this.roundList.push(tempRound9)
 
     }
@@ -736,43 +744,33 @@ const choices = [[5, 6], [6, 7], [5, 7], [6, 5], [7, 6], [7, 5]]
 
 export class BracketStageTournament {
     constructor(qualified) {
-        if (qualified) {
-            this.ready = true
-            this.roundNo = 1;
-            this.roundList = []
-            this.winner = []
-            this.disqualified = []
+        this.ready = true
+        this.roundNo = 1;
+        this.roundList = []
+        this.winner = []
+        this.disqualified = []
 
-            //first teams to qualify
-            const rank11Team = qualified[0]
-            const rank12Team = qualified[1]
+        const blg2 = new Team('BLG', 'East', blglogo);
+        const geng2 = new Team('GENG', 'East', genglogo);
+        const jdg2 = new Team('JDG', 'East', jdglogo);
+        const kt2 = new Team('KT', 'East', ktlogo);
+        const lng2 = new Team('LNG', 'East', lnglogo);
+        const nrg2 = new Team('NRG', 'West', nrglogo);
+        const t12 = new Team('T1', 'East', t1logo);
+        const wbg2 = new Team('WBG', 'East', wbglogo);
 
-            //randomize last qualified
-            let prediction = Math.floor(Math.random() * 6);
-            let randomChoice = choices[prediction]
-            let unluckyTeamOne = qualified[randomChoice[0]]
-            let unluckyTeamTwo = qualified[randomChoice[1]]
+        let bracket1 = [new Match(geng2, blg2), new Match(nrg2, wbg2)]
+        let bracket2 = [new Match(jdg2, kt2), new Match(lng2, t12)]
 
-            //create two brackets
-            let remainingTeams = [qualified[2], qualified[3], qualified[4], qualified[findMissingNumber(randomChoice)]]
-            let bracket1 = [new Match(rank11Team, unluckyTeamOne)]
-            let bracket2 = [new Match(rank12Team, unluckyTeamTwo)]
-            shuffleArray(remainingTeams)
-            bracket1.push(new Match(remainingTeams[0], remainingTeams[1]))
-            bracket2.push(new Match(remainingTeams[2], remainingTeams[3]))
+        let round1 = new Round(bracket1, 1)
 
-            let round1 = new Round(bracket1, 1)
+        let round2 = new Round(bracket2, 1)
 
-            let round2 = new Round(bracket2, 1)
+        round1.name = "Quarter Finals"
+        round2.name = "Quarter Finals"
 
-            round1.name = "Quarter Finals"
-            round2.name = "Quarter Finals"
-
-            this.roundList.push(round1)
-            this.roundList.push(round2)
-        } else {
-            this.ready = false
-        }
+        this.roundList.push(round1)
+        this.roundList.push(round2)
     }
 
     predictRound(predictions, repeatMatch = true) {
@@ -791,9 +789,9 @@ export class BracketStageTournament {
                     for (let i = 0; i < temp.matchList.length; i++) {
                         if (predictions[j].cMatch.firstteam.name == temp.matchList[i].firstteam.name && predictions[j].cMatch.secondteam.name == temp.matchList[i].secondteam.name) {
                             temp.matchList[i].setWinner(parseInt(predictions[j].picked));
-                            if (temp.matchList[i].winner.wins < 6) {
+                            if (temp.matchList[i].winner.wins < 3) {
                                 upper.push(temp.matchList[i].winner);
-                            } else if (temp.matchList[i].winner.wins === 6) {
+                            } else if (temp.matchList[i].winner.wins === 3) {
                                 this.winner.push(temp.matchList[i].winner);
                             }
                             this.disqualified.push(temp.matchList[i].loser)
@@ -810,7 +808,7 @@ export class BracketStageTournament {
             if (upper.length !== 0) {
                 for (let i = 0; i < tempList.length; i++) {
                     if (
-                        tempList[i].win === upper[0].wins && upper[0].wins == 5
+                        tempList[i].win === upper[0].wins && upper[0].wins == 2
                     ) {
                         upperIndex = i;
                         upperSwap = false;
@@ -839,12 +837,11 @@ export class BracketStageTournament {
 
         for (let i = 0; i < tempList.length; i++) {
             console.log(tempList[i].matchList)
-            if (tempList[i].matchList[0].firstteam.wins == 3) {
+            if (tempList[i].matchList[0].firstteam.wins == 0) {
                 tempList[i].name = "Quarter Finals"
-            } else if (tempList[i].matchList[0].firstteam.wins == 4) {
-                console.log("gigi")
+            } else if (tempList[i].matchList[0].firstteam.wins == 1) {
                 tempList[i].name = "Semi Finals"
-            } else if (tempList[i].matchList[0].firstteam.wins == 5) {
+            } else if (tempList[i].matchList[0].firstteam.wins == 2) {
                 console.log("gigi")
                 tempList[i].name = "Grand Finals"
             }

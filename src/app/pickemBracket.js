@@ -66,7 +66,7 @@ export default function PickemBracket() {
                 Completely Random
             </button>
             <button onClick={() => { setTourney(new Tournament); setRoundState([]); setStateSwitch(false); setQualified([]); }} className={styles.runButton}>Reset</button>
-            {qualified.length === 8 ? <button onClick={() => { router.push('/bracket') }} className={styles.runButton}>Goto BracketStage</button> : <></>}
+            {qualified.length === 8 ? <button onClick={() => { router.push('/bracket') }} className={styles.runBracketButton}>Goto BracketStage</button> : <></>}
         </div>
 
         <div className={styles.roundContainer}>
