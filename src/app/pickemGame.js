@@ -865,9 +865,9 @@ export class BracketStageTournament {
                 // const rd = parseInt(prompt());
                 const rd = RuleBook(temp.matchList[i].firstteam, temp.matchList[i].secondteam);
                 temp.matchList[i].setWinner(rd);
-                if (temp.matchList[i].winner.wins < 6) {
+                if (temp.matchList[i].winner.wins < 3) {
                     upper.push(temp.matchList[i].winner);
-                } else if (temp.matchList[i].winner.wins === 6) {
+                } else if (temp.matchList[i].winner.wins === 3) {
                     this.winner.push(temp.matchList[i].winner);
                 }
 
@@ -881,7 +881,7 @@ export class BracketStageTournament {
             if (upper.length !== 0) {
                 for (let i = 0; i < tempList.length; i++) {
                     if (
-                        tempList[i].win === upper[0].wins && upper[0].wins == 5
+                        tempList[i].win === upper[0].wins && upper[0].wins == 2
                     ) {
                         upperIndex = i;
                         upperSwap = false;
