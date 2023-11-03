@@ -759,7 +759,7 @@ export class BracketStageTournament {
         const t12 = new Team('T1', 'East', t1logo);
         const wbg2 = new Team('WBG', 'East', wbglogo);
 
-        let bracket1 = [new Match(geng2, blg2), new Match(nrg2, wbg2)]
+        let bracket1 = [new Match(geng2, blg2), new Match(nrg2, wbg2, wbg2, nrg2)]
         let bracket2 = [new Match(jdg2, kt2), new Match(lng2, t12)]
 
         let round1 = new Round(bracket1, 1)
