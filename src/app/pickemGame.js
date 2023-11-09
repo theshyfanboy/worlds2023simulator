@@ -745,7 +745,7 @@ const choices = [[5, 6], [6, 7], [5, 7], [6, 5], [7, 6], [7, 5]]
 export class BracketStageTournament {
     constructor(qualified) {
         this.ready = true
-        this.roundNo = 1;
+        this.roundNo = 2;
         this.roundList = []
         this.winner = []
         this.disqualified = []
@@ -759,18 +759,49 @@ export class BracketStageTournament {
         const t12 = new Team('T1', 'East', t1logo);
         const wbg2 = new Team('WBG', 'East', wbglogo);
 
-        let bracket1 = [new Match(geng2, blg2, blg2, geng2), new Match(nrg2, wbg2, wbg2, nrg2)]
-        let bracket2 = [new Match(jdg2, kt2), new Match(lng2, t12)]
+        let match1 = new Match(geng2, blg2)
+        let match2 = new Match(nrg2, wbg2)
+        let match3 = new Match(jdg2, kt2)
+        let match4 = new Match(lng2, t12)
 
-        let round1 = new Round(bracket1, 1)
+        match1.setWinner(1)
+        match2.setWinner(1)
+        match3.setWinner(0)
+        match4.setWinner(1)
 
-        let round2 = new Round(bracket2, 1)
+        let bracket1 = [match1, match2]
+        let bracket2 = [match3, match4]
+
+        let round1 = new Round([], 1)
+        round1.insertMatch([match1, match2])
+
+        let round2 = new Round([], 1)
+        round2.insertMatch([match3, match4])
 
         round1.name = "Quarter Finals"
         round2.name = "Quarter Finals"
 
+        round1.makeComplete()
+        round2.makeComplete()
+        this.disqualified.push(geng2, nrg2, kt2, lng2)
+
         this.roundList.push(round1)
         this.roundList.push(round2)
+
+        let match5 = new Match(blg2, wbg2)
+        let match6 = new Match(jdg2, t12)
+
+        let round3 = new Round([], 2)
+        round3.insertMatch([match5])
+
+        let round4 = new Round([], 2)
+        round4.insertMatch([match6])
+
+        round3.name = "Semi Finals"
+        round4.name = "Semi Finals"
+
+        this.roundList.push(round3)
+        this.roundList.push(round4)
     }
 
     predictRound(predictions, repeatMatch = true) {

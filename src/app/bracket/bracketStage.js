@@ -61,7 +61,6 @@ export default function BracketStage() {
                         <BracketRound roundHistory={rounds} actionButton={makePrediction} roundStatus={rounds[0].complete} roundCount={roundSum} />
                     </div>
                 }
-
                 )}
             </div>
 
