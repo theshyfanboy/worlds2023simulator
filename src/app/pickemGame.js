@@ -788,7 +788,7 @@ export class BracketStageTournament {
         this.roundList.push(round1)
         this.roundList.push(round2)
 
-        let match5 = new Match(blg2, wbg2)
+        let match5 = new Match(blg2, wbg2, wbg2, blg2)
         let match6 = new Match(jdg2, t12)
 
         let round3 = new Round([], 2)
