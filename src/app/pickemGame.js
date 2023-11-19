@@ -820,6 +820,11 @@ export class BracketStageTournament {
         round5.insertMatch([match7])
 
         round5.name = "Grand Finals"
+
+        match7.setWinner(1)
+        this.winner.push(t12)
+        this.disqualified.push(wbg2)
+        round5.makeComplete()
         this.roundList.push(round5)
 
     }
